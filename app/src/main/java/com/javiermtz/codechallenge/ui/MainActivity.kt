@@ -1,24 +1,20 @@
 package com.javiermtz.codechallenge.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
-import com.javiermtz.codechallenge.R.layout
+import androidx.appcompat.app.AppCompatActivity
+import com.javiermtz.codechallenge.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
   private val viewModel: DogsViewModel by viewModels()
+  private lateinit var binding: ActivityMainBinding
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(layout.activity_main)
-    viewModel.data.observe(this, Observer {
-      Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
-    })
-
+    binding = ActivityMainBinding.inflate(layoutInflater)
+    setContentView(binding.root)
   }
 
 }
