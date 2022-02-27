@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.javiermtz.codechallenge.data.repository.RepositoryDogs
 import com.javiermtz.codechallenge.model.response.DogsResponse
+import com.javiermtz.codechallenge.model.response.DogsResponseItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,7 +16,7 @@ class DogsViewModel @Inject constructor(
   repository : RepositoryDogs
 ) : ViewModel(){
 
-  val data : LiveData<DogsResponse> = repository.getDogs()
+  val data : LiveData<List<DogsResponseItem>> = repository.getDogs()
 
 
 }
