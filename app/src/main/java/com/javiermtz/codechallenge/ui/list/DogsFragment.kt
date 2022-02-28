@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.javiermtz.codechallenge.R
 import com.javiermtz.codechallenge.databinding.FragmentDogsBinding
 import com.javiermtz.codechallenge.ui.DogsViewModel
 import com.javiermtz.codechallenge.ui.list.DogsAdapter.OnClickListener
@@ -41,9 +42,24 @@ class DogsFragment : Fragment() {
   private fun observers() {
     viewModel.data.observe(viewLifecycleOwner, {
       when(it){
-        is GenericError -> ""
-        Loading -> ""
-        is Success -> adapter.submitList(it.dataResponse)
+        is GenericError -> {
+          if (!it.error.isNullOrBlank()) {
+            binding.imgError.visibility = View.VISIBLE
+            binding.errorText.text = requireContext().getString(R.string.error, it)
+          } else {
+            binding.imgError.visibility = View.GONE
+            binding.errorText.visibility = View.GONE
+          }
+        }
+        is Loading -> if(it.loading){
+          binding.imgLoading.visibility = View.VISIBLE
+          binding.imgError.visibility = View.GONE
+        }
+        else binding.imgLoading.visibility = View.GONE
+        is Success -> {
+          binding.imgLoading.visibility = View.GONE
+          adapter.submitList(it.dataResponse)
+        }
       }
 
     })

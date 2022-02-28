@@ -24,16 +24,22 @@ class RepositoryDogs @Inject constructor(
     return liveData {
       if (shared.isFromDatabase()) {
         withContext(Dispatchers.IO){
+          emit(ResultWrapper.Loading(false))
           emit(ResultWrapper.Success(databaseDogs.dogsDao().getAllImages()))
         }
       } else when (val data = remoteDogs.getDogsFromApi()) {
         is GenericError -> if (shared.isFromDatabase()) {
+          emit(ResultWrapper.Loading(false))
           emit(ResultWrapper.Success(databaseDogs.dogsDao().getAllImages()))
         } else {
-          emit(ResultWrapper.GenericError(""))
+          emit(ResultWrapper.Loading(false))
+          emit(ResultWrapper.GenericError("Error"))
         }
-        Loading -> {}
+        is Loading -> {
+          emit(ResultWrapper.Loading())
+        }
         is Success -> {
+          emit(ResultWrapper.Loading(false))
           withContext(Dispatchers.IO) {
             databaseDogs.dogsDao().addImages(data.dataResponse)
             shared.setFromDatabase(true)
