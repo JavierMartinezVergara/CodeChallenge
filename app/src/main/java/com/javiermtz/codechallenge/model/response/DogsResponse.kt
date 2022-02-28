@@ -1,3 +1,7 @@
 package com.javiermtz.codechallenge.model.response
 
-class DogsResponse : ArrayList<DogsResponseItem>()
+import android.os.LocaleList
+
+class DogsResponse(
+  val list: List<DogsResponseItem> = listOf()
+)

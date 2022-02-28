@@ -2,6 +2,7 @@ package com.javiermtz.codechallenge.data.repository
 
 import com.javiermtz.codechallenge.data.api.DogsApi
 import com.javiermtz.codechallenge.model.response.DogsResponse
+import com.javiermtz.codechallenge.model.response.DogsResponseItem
 import com.javiermtz.util.ResultWrapper
 import com.javiermtz.util.ResultWrapper.GenericError
 import com.javiermtz.util.ResultWrapper.Success
@@ -16,7 +17,7 @@ class DogsService @Inject constructor(
 ) {
 
 
-  suspend fun getDogsFromApi() : ResultWrapper<DogsResponse>{
+  suspend fun getDogsFromApi() : ResultWrapper<List<DogsResponseItem>>{
     return try {
       withContext(Dispatchers.IO){
         val response = apiService.getDogs()
