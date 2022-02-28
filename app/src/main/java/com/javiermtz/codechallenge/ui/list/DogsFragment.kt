@@ -9,6 +9,9 @@ import androidx.fragment.app.viewModels
 import com.javiermtz.codechallenge.databinding.FragmentDogsBinding
 import com.javiermtz.codechallenge.ui.DogsViewModel
 import com.javiermtz.codechallenge.ui.list.DogsAdapter.OnClickListener
+import com.javiermtz.util.ResultWrapper.GenericError
+import com.javiermtz.util.ResultWrapper.Loading
+import com.javiermtz.util.ResultWrapper.Success
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,7 +40,12 @@ class DogsFragment : Fragment() {
 
   private fun observers() {
     viewModel.data.observe(viewLifecycleOwner, {
-      adapter.submitList(it)
+      when(it){
+        is GenericError -> ""
+        Loading -> ""
+        is Success -> adapter.submitList(it.dataResponse)
+      }
+
     })
   }
 }
